@@ -3,6 +3,13 @@
      background-color: #075e54; /* Funky WhatsApp-like background color for the main page */
         color: #ffffff; /* Set text color to contrast with the background */
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    
+  }
+
 
 
 .chat-container {
@@ -87,61 +94,105 @@
 }
 
 /* Chat modal styles */
+/* Chat modal styles */
 #chatModal {
-    max-width: 400px;
-    padding: 15px;
-    height: 600px; /* Adjust the height as needed */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999; /* Make sure the modal is on top of everything */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
 }
+.modal-dialog {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    height: 100%;
+  }
+  .modal-content {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+  }
+
 .chat-interface {
-    background-color: #e5ddd5; /* WhatsApp-like background color */
-    background-image: url("background.png");
-    padding: 15px;
-    height: 950px;
-   
-     /* Adjust the height as needed */
-    
+    background-color: #e5ddd5;
+  background-image: url("background.png");
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-messages {
-    max-height: 300px; /* Set a maximum height for the chat messages container */
-    overflow-y: auto;
+    flex: 1; /* Allow the chat messages to grow and fill the available space */
+    overflow-y: auto; /* Add a scrollbar if the messages exceed the container height */
 }
 
 .message {
-    max-width: 70%; /* Limit message width for better readability */
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    max-width: 80%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .sent {
-    background-color: #dcf8c6; /* Sent message background color */
+    background-color: #dcf8c6;
     align-self: flex-end;
     color: black;
     margin-left: auto;
+    margin-right: 20px;
 }
 
 .received {
-    background-color: #ffffff; /* Received message background color */
-    align-self: flex-start;
-    color: black;
+    background-color: #ffffff;
+  align-self: flex-start;
+  color: black;
+  margin-left: 20px;
+}
+
+.message-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .timestamp {
     font-size: 12px;
     color: #666666;
-    margin-top: 5px;
-    display: block;
+    margin-right: 5px;
+}
+
+.tick-mark-container {
+    display: flex;
+    align-items: center;
+}
+
+.tick-mark {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #4FC3F7;
+    margin-left: 2px;
+    text-align: right;
+}
+
+.message.sent .tick-mark {
+    color:#4FC3F7;
+}
+
+.message.sent .tick-mark.double-tick {
+    color: #4FC3F7;
 }
 
 .chat-input {
+    margin-top: auto; /* Push the input area to the bottom */
     display: flex;
-    margin-top: 15px;
+    align-items: center;
 }
 
 .chat-input textarea {
@@ -152,8 +203,8 @@
 
 .chat-input button {
     width: 80px;
-    
 }
+
 .chat-input button {
     background-color: #25D366;
     color: rgb(255, 255, 255);
@@ -177,7 +228,10 @@
     .accordion-button {
         background-color: #007bff; /* Bootstrap primary color for button */
         color: #fff;
+        
         font-weight: bold;
+        
+        
     }
 
     .accordion-button:hover {
