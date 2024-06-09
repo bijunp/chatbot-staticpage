@@ -23,29 +23,55 @@ function openCallModal() {
 }
 
 // Function to make a call
+let botIsProcessing = false;
 
 function sendMessage() {
     // Get user input
-    var userInput = document.querySelector('.chat-input textarea').value;
-
-    // Display user message
-    displayMessage('sent', userInput);
-
-    // Simulate chatbot response
-    var normalizedInput = userInput.toLowerCase(); // Normalize input to lowercase for case-insensitive comparison
-    if (normalizedInput.includes('hello')) {
+    var userInput = document.querySelector('.chat-input textarea').value.trim();
+  
+    // Check if the input is not empty and the bot is not processing a response
+    if (userInput !== '' && !botIsProcessing) {
+      // Disable the chat input textarea
+      document.querySelector('.chat-input textarea').disabled = true;
+  
+      // Set botIsProcessing to true
+      botIsProcessing = true;
+  
+      // Display user message
+      displayMessage('sent', userInput);
+  
+      // Simulate chatbot response
+      var normalizedInput = userInput.toLowerCase();
+      if (normalizedInput.includes('hello')) {
         var chatbotResponse = 'Hi! How can I assist you?';
         displayMessage('received', chatbotResponse);
-    } else {
+        // Simulate a delay before enabling the chat input textarea
+        setTimeout(function() {
+          document.querySelector('.chat-input textarea').disabled = false;
+          botIsProcessing = false;
+        }, 2000); // 2 seconds delay (adjust as needed)
+      } else {
         // Simulate a generic response for other inputs
         var genericResponse = 'Thank you for reaching out. Our team will get back to you.';
         displayMessage('received', genericResponse);
+        // Simulate a delay before enabling the chat input textarea
+        setTimeout(function() {
+          document.querySelector('.chat-input textarea').disabled = false;
+          botIsProcessing = false;
+        }, 2000); // 2 seconds delay (adjust as needed)
+      }
+  
+      // Clear user input
+      document.querySelector('.chat-input textarea').value = '';
+  
+      // Update the tick marks for the sent message
+      var sentMessage = document.querySelector('.message.sent:last-child');
+      var tickMark = sentMessage.querySelector('.tick-mark');
+      tickMark.innerHTML = '&#10004;&#10004;';
     }
+  }
 
-    // Clear user input
-    document.querySelector('.chat-input textarea').value = '';
-}
-
+   
 document.addEventListener("DOMContentLoaded", function() {
     // Example usage:
     displayMessage('sent', 'Hello, how can I assist you today?', getCurrentTime());
@@ -56,8 +82,15 @@ function displayMessage(sender, message, timestamp) {
     var chatbox = document.querySelector('.chat-messages');
     var messageDiv = document.createElement('div');
     messageDiv.className = 'message ' + sender;
-    messageDiv.innerHTML = '<p>' + message + '</p><span class="timestamp">' + (timestamp || getCurrentTime()) + '</span>';
+    messageDiv.innerHTML = '<p>' + message + '</p><span class="timestamp">' + (timestamp || getCurrentTime()) + '</span>' + '<span class="tick-mark">&#10004;</span>';
     chatbox.appendChild(messageDiv);
+
+    // Update the tick marks for the received message
+    if (sender === 'received') {
+        var receivedMessage = messageDiv;
+        var tickMark = receivedMessage.querySelector('.tick-mark');
+        tickMark.innerHTML = '&#10004;&#10004;';
+    }
 }
 
 function getCurrentTime() {
@@ -74,6 +107,5 @@ function handleKeyDown(event) {
         sendMessage(); // Call your sendMessage function when Enter key is pressed
     }
 }
-
 // Your client-side JavaScript code here
 
